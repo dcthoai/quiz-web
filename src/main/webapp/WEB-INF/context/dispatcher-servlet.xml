@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+				           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				           http://www.springframework.org/schema/context
+				           http://www.springframework.org/schema/context/spring-context-4.3.xsd
+				           http://www.springframework.org/schema/mvc
+				           https://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+				           http://www.springframework.org/schema/jdbc
+				           http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd">
+				           
+    <context:component-scan base-package="vn.ptit"/>
+    <mvc:annotation-driven/>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- Older driver to connect MySQL -->
+		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>  -->
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/exam"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="@Thoai169"></property>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+</beans>
+
