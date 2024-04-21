@@ -13,8 +13,8 @@ public class MapperResultAnswer implements RowMapper<ResultAnswer>{
 	public ResultAnswer mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultAnswer resultAnswer = new ResultAnswer();
         resultAnswer.setId(rs.getInt("id"));
-        resultAnswer.setQuestionid(rs.getInt("questionid"));
-        resultAnswer.setResultid(rs.getInt("resultid"));
+        resultAnswer.setQuestionId(rs.getInt("questionid"));
+        resultAnswer.setResultId(rs.getInt("resultid"));
         resultAnswer.setUserChoice(rs.getString("userChoice"));
         return resultAnswer;
 	}

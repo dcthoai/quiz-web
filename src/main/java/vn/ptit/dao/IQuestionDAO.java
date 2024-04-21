@@ -7,5 +7,4 @@ import vn.ptit.model.ResultAnswer;
 
 public interface IQuestionDAO extends IGenericDAO<Question>{
 	public List<Question> getQuestionsByExamId(int examId);
-	public boolean checkCorrectAnswer(ResultAnswer answer);
 }

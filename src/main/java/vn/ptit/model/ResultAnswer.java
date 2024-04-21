@@ -1,7 +1,7 @@
 package vn.ptit.model;
 
 public class ResultAnswer {
-	private int id, questionid, resultid;
+	private int id, questionId, resultId;
 	private String userChoice;
 
 	public ResultAnswer() {
@@ -16,20 +16,20 @@ public class ResultAnswer {
 		this.id = id;
 	}
 
-	public int getQuestionid() {
-		return questionid;
+	public int getQuestionId() {
+		return questionId;
 	}
 
-	public void setQuestionid(int questionid) {
-		this.questionid = questionid;
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}
 
-	public int getResultid() {
-		return resultid;
+	public int getResultId() {
+		return resultId;
 	}
 
-	public void setResultid(int resultid) {
-		this.resultid = resultid;
+	public void setResultId(int resultId) {
+		this.resultId = resultId;
 	}
 
 	public String getUserChoice() {

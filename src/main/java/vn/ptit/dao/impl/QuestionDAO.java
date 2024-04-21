@@ -71,16 +71,4 @@ public class QuestionDAO extends AbstractDAO<Question> implements IQuestionDAO{
 		List<Question> listQuestions = executeQuery(sql, new MapperQuestion(), examId);
 		return listQuestions;
 	}
-
-	@Override
-	public boolean checkCorrectAnswer(ResultAnswer answer) {
-		Question question = getById(answer.getQuestionid());
-		
-		if (question != null) {
-			if (question.getCorrectAns().equals(answer.getUserChoice()))
-				return true;
-		}
-		
-		return false;
-	}
 }

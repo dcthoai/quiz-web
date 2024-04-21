@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 
-import vn.ptit.dao.impl.ExamDAO;
 import vn.ptit.model.Exam;
+import vn.ptit.service.impl.ExamService;
 
 @Controller("userHomeController")
 public class HomeController {
 	
 	@Autowired
-	private ExamDAO examDAO;
+	private ExamService examService;
 	
 	@GetMapping(value = "/")
 	public ResponseEntity<?> homepage() {
-		List<Exam> listExams = examDAO.getAllExams();
+		List<Exam> listExams = examService.getAllExams();
 		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
 		examResult.put("listExams", listExams);
 
@@ -38,7 +38,7 @@ public class HomeController {
 	@GetMapping(value = "/search")
 	public ResponseEntity<?> searchExam(@RequestParam("name") String name){
 		String s = "%" + name.trim() + "%";
-		List<Exam> listExams = examDAO.getExamByName(s);
+		List<Exam> listExams = examService.getExamByName(s);
 		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
 		examResult.put("listExams", listExams);
 		
@@ -55,11 +55,11 @@ public class HomeController {
 		List<Exam> listExams = new ArrayList<Exam>();
 
 		if (isEnabled != null && isEnabled.equals("true")) {
-		    listExams = examDAO.getExamEnabled();
+		    listExams = examService.getExamEnabled();
 		}
 
 		if (isFree != null && isFree.equals("true")) {
-		    listExams = examDAO.getExamFree();
+		    listExams = examService.getExamFree();
 		}
 		
 		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
