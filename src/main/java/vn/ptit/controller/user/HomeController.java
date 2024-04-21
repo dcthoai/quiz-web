@@ -1,6 +1,9 @@
 package vn.ptit.controller.user;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,24 +19,18 @@ import vn.ptit.model.Exam;
 
 @Controller("userHomeController")
 public class HomeController {
+	
 	@Autowired
 	private ExamDAO examDAO;
 	
 	@GetMapping(value = "/")
 	public ResponseEntity<?> homepage() {
-		Exam exam = examDAO.getById(1);
+		List<Exam> listExams = examDAO.getAllExams();
+		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
+		examResult.put("listExams", listExams);
 
         Gson gson = new Gson();
-        String json = gson.toJson(exam);
-        
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json);
-	}
-	
-	@GetMapping(value = "/exam")
-	public ResponseEntity<?> getExamById(@RequestParam("id") int id){
-		Exam exam = examDAO.getById(id);
-        Gson gson = new Gson();
-        String json = gson.toJson(exam);
+        String json = gson.toJson(examResult);
         
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json);
 	}
@@ -42,9 +39,34 @@ public class HomeController {
 	public ResponseEntity<?> searchExam(@RequestParam("name") String name){
 		String s = "%" + name.trim() + "%";
 		List<Exam> listExams = examDAO.getExamByName(s);
+		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
+		examResult.put("listExams", listExams);
 		
         Gson gson = new Gson();
-        String json = gson.toJson(listExams);
+        String json = gson.toJson(examResult);
+        
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json);
+	}
+	
+	@GetMapping(value = "/filter")
+	public  ResponseEntity<?> filter(@RequestParam(value = "enabled", required = false) String isEnabled,
+            						 @RequestParam(value = "free", required = false) String isFree){
+		
+		List<Exam> listExams = new ArrayList<Exam>();
+
+		if (isEnabled != null && isEnabled.equals("true")) {
+		    listExams = examDAO.getExamEnabled();
+		}
+
+		if (isFree != null && isFree.equals("true")) {
+		    listExams = examDAO.getExamFree();
+		}
+		
+		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
+		examResult.put("listExams", listExams);
+		
+        Gson gson = new Gson();
+        String json = gson.toJson(examResult);
         
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(json);
 	}

@@ -2,9 +2,12 @@ package vn.ptit.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import vn.ptit.dao.IResultAnswerDAO;
 import vn.ptit.model.ResultAnswer;
 
+@Repository
 public class ResultAnswerDAO extends AbstractDAO<ResultAnswer> implements IResultAnswerDAO{
 
 	@Override

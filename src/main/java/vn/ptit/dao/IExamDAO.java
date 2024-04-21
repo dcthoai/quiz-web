@@ -8,4 +8,5 @@ public interface IExamDAO extends IGenericDAO<Exam>{
 	public List<Exam> getExamEnabled();
 	public List<Exam> getExamFree();
 	public List<Exam> getExamByName(String name);
+	public List<Exam> getAllExams();
 }

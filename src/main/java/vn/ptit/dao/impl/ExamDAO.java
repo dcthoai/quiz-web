@@ -63,14 +63,18 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 
 	@Override
 	public List<Exam> getExamEnabled() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM `exam`.`exam` WHERE `status` = 'Tự do' OR (`deadline` > NOW() AND `timeStart` > NOW())";
+	
+		List<Exam> listExams = executeQuery(sql, new MapperExam());
+		return listExams;
 	}
 
 	@Override
 	public List<Exam> getExamFree() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM `exam`.`exam` WHERE `status` = 'Tự do'";
+		
+		List<Exam> listExams = executeQuery(sql, new MapperExam());
+		return listExams;
 	}
 
 	@Override
@@ -78,6 +82,14 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 		String sql = "SELECT * FROM `exam`.`exam` WHERE(`examName` LIKE ?)";
 		
 		List<Exam> listExams = executeQuery(sql, new MapperExam(), name);
+		return listExams;
+	}
+	
+	@Override
+	public List<Exam> getAllExams() {
+		String sql = "SELECT * FROM `exam`.`exam` ORDER BY `deadline` DESC LIMIT 32";
+		
+		List<Exam> listExams = executeQuery(sql, new MapperExam());
 		return listExams;
 	}
 }
