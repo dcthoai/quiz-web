@@ -266,4 +266,29 @@ public class AdminExamController {
 			return new ResponseJSON(true, "Exam has been updated.").ok();
 		return new ResponseJSON(false, "Update failure! Server error.").serverError();
 	}
+	
+	@PostMapping(value = "/admin/exam/delete")
+	public ResponseEntity<?> delete(@RequestParam("id") int examId, HttpServletRequest request){
+		HttpSession session = request.getSession(false);
+		
+		if (session != null) {
+			try {
+				boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+				
+				if (!isAdmin)
+					return new ResponseJSON(false, "Admin was not login.").badRequest();
+			} catch (Exception e) {
+				return new ResponseJSON(false, "Admin was not login.").badRequest();
+			}
+		} else {
+			return new ResponseJSON(false, "Not found session. Admin was not login.").badRequest();
+		}
+		
+		boolean isDelete = examService.deleteExam(examId);
+		
+		if (isDelete)
+			return new ResponseJSON(true, "Delete exam successful!").ok();
+		
+		return new ResponseJSON(false, "Delete exam failure! Server error").badRequest();
+	}
 }

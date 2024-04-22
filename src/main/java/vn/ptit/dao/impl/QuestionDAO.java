@@ -49,7 +49,7 @@ public class QuestionDAO extends AbstractDAO<Question> implements IQuestionDAO{
 
 	@Override
 	public int delete(int id) {
-		String sql = "DELETE `exam`.`question` WHERE `id` = ?";
+		String sql = "DELETE FROM `exam`.`question` WHERE `id` = ?";
 		
 		int affectedRows = executeUpdate(sql, id);
 

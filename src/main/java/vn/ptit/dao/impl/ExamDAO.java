@@ -48,7 +48,7 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 
 	@Override
 	public int delete(int id) {
-		String sql = "DELETE `exam`.`exam` WHERE(`id` = ?)";
+		String sql = "DELETE FROM `exam`.`exam` WHERE `id` = ?";
 		
 		int affectedRows = executeUpdate(sql, id);
 		return affectedRows;
