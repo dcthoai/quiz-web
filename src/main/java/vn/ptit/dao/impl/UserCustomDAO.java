@@ -96,4 +96,13 @@ public class UserCustomDAO extends AbstractDAO<UserCustom> implements IUserCusto
 		
 		return listUsers.isEmpty() ? null : listUsers.get(0);
 	}
+
+	@Override
+	public List<UserCustom> getAllStudents() {
+		String sql = "SELECT * FROM `exam`.`user` WHERE (`role` = 'ROLE_USER')";
+		
+		List<UserCustom> listUsers = executeQuery(sql, new MapperUserCustom());
+		
+		return listUsers;
+	}
 }

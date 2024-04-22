@@ -13,9 +13,10 @@ public class Question {
 		super();
 	}
 
-	public Question(String questionName, String answerA, String answerB, String answerC, String answerD,
+	public Question(int id, String questionName, String answerA, String answerB, String answerC, String answerD,
 			String correctAns) {
 		super();
+		this.id = id;
 		this.questionName = questionName;
 		this.answerA = answerA;
 		this.answerB = answerB;

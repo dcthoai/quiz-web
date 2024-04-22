@@ -40,7 +40,8 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 										exam.getStatus(),
 										exam.getDeadline(),
 										exam.getTime(),
-										exam.getTimeStart());
+										exam.getTimeStart(),
+										exam.getId());
 
 		return affectedRows;
 	}
@@ -63,7 +64,7 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 
 	@Override
 	public List<Exam> getExamEnabled() {
-		String sql = "SELECT * FROM `exam`.`exam` WHERE `status` = 'Tự do' OR (`deadline` > NOW() AND `timeStart` > NOW())";
+		String sql = "SELECT * FROM `exam`.`exam` WHERE `status` = 'free' OR (`deadline` > NOW() AND `timeStart` > NOW())";
 	
 		List<Exam> listExams = executeQuery(sql, new MapperExam());
 		return listExams;

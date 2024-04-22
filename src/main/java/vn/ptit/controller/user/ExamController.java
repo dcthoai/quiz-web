@@ -46,6 +46,10 @@ public class ExamController {
 		Exam exam = examService.getExamById(id);
 		List<Question> listQuestions = examService.getQuestionsByExamId(id);
 		
+		for (Question question : listQuestions) {
+			question.setCorrectAns(null);
+		}
+		
 		Map<String, Object> examResult = new LinkedHashMap<String, Object>();
 		examResult.put("exam", exam);
 		examResult.put("listQuestions", listQuestions);

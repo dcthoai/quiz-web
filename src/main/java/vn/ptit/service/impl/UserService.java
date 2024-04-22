@@ -1,5 +1,7 @@
 package vn.ptit.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,5 +64,11 @@ public class UserService implements UserDetailsService{
 		UserCustom user = userCustomDAO.getUserByUsername(username);
 		
 		return user.getRole().equals("ROLE_ADMIN");
+	}
+	
+	public List<UserCustom> getAllStudents(){
+		List<UserCustom> users = userCustomDAO.getAllStudents();
+		
+		return users;
 	}
 }

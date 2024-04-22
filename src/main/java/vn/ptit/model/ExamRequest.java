@@ -6,11 +6,11 @@ import java.util.List;
 public class ExamRequest {
 	private String examName, description, status;
 	private Timestamp deadline, timeStart;
-	private int time;
+	private int id, time;
 	private List<Question> listQuestions;
 
 	public ExamRequest(String examName, String description, String status, Timestamp deadline, int time, Timestamp timeStart,
-			List<Question> listQuestions) {
+			List<Question> listQuestions, int id) {
 		super();
 		this.examName = examName;
 		this.description = description;
@@ -19,6 +19,15 @@ public class ExamRequest {
 		this.timeStart = timeStart;
 		this.time = time;
 		this.listQuestions = listQuestions;
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getExamName() {
