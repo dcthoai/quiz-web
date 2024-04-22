@@ -75,7 +75,7 @@ public class ResultService implements IResultService{
 		}
 		
 		result.setTotalCorrectAns(correctAnswers);
-		result.setScore((float) correctAnswers / (float) totalQuestions);
+		result.setScore(((float) correctAnswers / (float) totalQuestions) * 10);
 		
 		return result;
 	}

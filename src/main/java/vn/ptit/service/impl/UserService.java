@@ -46,9 +46,21 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 	
+	public UserCustom getUserById(int userId) {
+		UserCustom user = userCustomDAO.getById(userId);
+		
+		return user;
+	}
+	
 	public int insertUserCustom(UserCustom user) {
 		int userId = userCustomDAO.insert(user);
 		
 		return userId;
+	}
+	
+	public boolean isAdmin(String username) {
+		UserCustom user = userCustomDAO.getUserByUsername(username);
+		
+		return user.getRole().equals("ROLE_ADMIN");
 	}
 }

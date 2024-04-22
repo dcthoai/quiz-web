@@ -64,14 +64,18 @@ public class ExamController {
         int examId = requestAnswers.getExamId();
         List<ResultAnswer> listAnswers = requestAnswers.getListAnswers();
         
+        for (ResultAnswer resultAnswer : listAnswers) {
+			System.out.println(resultAnswer.getUserChoice());
+		}
+        
         Result result = resultService.markExam(examId, listAnswers);
         
         HttpSession session = request.getSession(false);
-        if (session != null) {    	
+        
+        if (session != null) {
         	try {
-        		String username = (String) request.getAttribute("username");
-        		username = "b21dccn001";
-        		
+        		String username = (String) session.getAttribute("username");
+                
         		if (username != null) {
                 	UserCustom user = userService.getUserByUsername(username);
                 	

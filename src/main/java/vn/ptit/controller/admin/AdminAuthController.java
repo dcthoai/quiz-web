@@ -1,27 +1,16 @@
-package vn.ptit.controller.user;
-
-import java.util.ArrayList;
-import java.util.List;
+package vn.ptit.controller.admin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,59 +21,14 @@ import vn.ptit.security.UserAuthenticationRequest;
 import vn.ptit.service.impl.UserService;
 
 @Controller
-public class AuthController {
-	
+public class AdminAuthController {
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
     
 	@Autowired
     private AuthenticationManager authenticationManager;
-	
-	@PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody String jsonString) {
-    	JSONObject userData = new JSONObject(jsonString);
-    	
-    	// Check data format from client
-        if (!userData.has("username") || !userData.has("email") || !userData.has("password")) {
-            return new ResponseJSON(false, "Missing required data attributes from client!").badRequest();
-        }
-	        
-        try {
-        	String username = userData.getString("username");
-        	String email = userData.getString("email");
-        	String password = userData.getString("password");
-        	String encodedPassword = passwordEncoder.encode(password);
-        	
-			boolean isExists = userService.isExistUser(username);
-			
-			if(isExists) {
-				return new ResponseJSON(false, "User has already exist!").badRequest();
-			} else {
-				List<GrantedAuthority> authorities = new ArrayList<>();
-				
-				UserCustom user = new UserCustom(username, encodedPassword, authorities, true, true, true, true);
-				user.setEmail(email);
-				user.setRole("ROLE_USER");
-				
-				int userId = userService.insertUserCustom(user);
-				
-				if(userId > 0) {
-					return new ResponseJSON(true, "Register successful!").ok();
-				}
-					
-				return new ResponseJSON(false, "Register failure! Can not save user to database.").badRequest();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-			return new ResponseJSON(false, "Exception when checking data user!").badRequest();
-		}
-    }
 
-    @PostMapping("/login")
+    @PostMapping("/admin/login")
     public ResponseEntity<?> login(@RequestBody UserAuthenticationRequest user, HttpServletRequest request) {
     	try {
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -93,13 +37,17 @@ public class AuthController {
             // Get user information after successful authentication
             UserCustom userAuthenticated = (UserCustom) authenticated.getPrincipal();
             String username = userAuthenticated.getUsername();
+            if (userService.isAdmin(username)) {
+            	// Save authentication state in current session
+                HttpSession session = request.getSession(true);
+                session.setAttribute("username", username);
+                session.setAttribute("isAdmin", true);
+                session.setAttribute("isUserAuthenticated", true);
+                
+                return new ResponseJSON(true, "Login admin successful!").ok();
+            }
 
-            // Save authentication state in current session
-            HttpSession session = request.getSession(true);
-            session.setAttribute("username", username);
-            session.setAttribute("isUserAuthenticated", true);
-            
-            return new ResponseJSON(true, "Login successful!").ok();
+            return new ResponseJSON(false, "Your account does not have enough permissions to access this page.").badRequest();
         } catch (BadCredentialsException e) {
         	return new ResponseJSON(false, "Invalid username or password!").unAuthorized();
         } catch (LockedException e) {
@@ -109,7 +57,7 @@ public class AuthController {
         }
     }
     
-    @PostMapping("/logout")
+    @PostMapping("/admin/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         
     	HttpSession session = request.getSession(false);
@@ -117,9 +65,9 @@ public class AuthController {
         if (session != null) {
         	if (session.getAttribute("username") != null && (Boolean) session.getAttribute("isUserAuthenticated")) {
         		session.invalidate();
-        		return new ResponseJSON(true, "Logout successful!").ok();        		
+        		return new ResponseJSON(true, "Logout admin successful!").ok();        		
         	} else {
-        		return new ResponseJSON(false, "User was not login!").badRequest();
+        		return new ResponseJSON(false, "Admin was not login!").badRequest();
         	}
         } else {
         	return new ResponseJSON(false, "Can not logged out your account!").badRequest();

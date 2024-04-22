@@ -13,6 +13,17 @@ public class Question {
 		super();
 	}
 
+	public Question(String questionName, String answerA, String answerB, String answerC, String answerD,
+			String correctAns) {
+		super();
+		this.questionName = questionName;
+		this.answerA = answerA;
+		this.answerB = answerB;
+		this.answerC = answerC;
+		this.answerD = answerD;
+		this.correctAns = correctAns;
+	}
+
 	public int getId() {
 		return id;
 	}

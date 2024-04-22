@@ -8,6 +8,12 @@ public class ResultAnswer {
 		super();
 	}
 
+	public ResultAnswer(int questionId, String userChoice) {
+		super();
+		this.questionId = questionId;
+		this.userChoice = userChoice;
+	}
+
 	public int getId() {
 		return id;
 	}

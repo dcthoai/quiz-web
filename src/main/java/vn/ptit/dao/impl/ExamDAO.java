@@ -13,7 +13,7 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 
 	@Override
 	public int insert(Exam exam) {
-		String sql = "INSERT INTO `exam`.`exam` (`examName`, `desciption`, `status`, `deadline`, `time`, `timeStart`) "
+		String sql = "INSERT INTO `exam`.`exam` (`examName`, `description`, `status`, `deadline`, `time`, `timeStart`) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 		
 		int examId = executeInsert(sql, exam.getExamName(),
@@ -29,7 +29,7 @@ public class ExamDAO extends AbstractDAO<Exam> implements IExamDAO{
 	@Override
 	public int update(Exam exam) {
 		String sql = "UPDATE `exam`.`exam` SET `examName` = ?, "
-											+ "`desciption` = ?, "
+											+ "`description` = ?, "
 											+ "`status` = ?, "
 											+ "`deadline` = ?, "
 											+ "`time` = ?, "
